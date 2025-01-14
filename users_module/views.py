@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from models import User
-from serializers import UserSerializer
+from users_module.models import User
+from users_module.serializers import UserSerializer
 from rest_framework.decorators import action
 
 
