@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from models import User
+from serializers import UserSerializer
 
 
 # Create your views here.
 
-class RegisterView(APIView):
-    def post(self,request):
-        serializer = RegisterSerializer(data= request.data)
-
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer(partial=True, many=True)
