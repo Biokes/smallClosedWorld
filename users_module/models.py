@@ -17,7 +17,7 @@ class User(AbstractUser):
                                 )
     isVerified = models.BooleanField(default=False)
     username = models.CharField(max_length=254, unique=False)
-    profile_picture_url = models.CharField(max_length=254)
+    profile_picture_url = models.CharField(max_length=254, blank=True, null=False)
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], default='Female')
 
     USERNAME_FIELD = 'email'
