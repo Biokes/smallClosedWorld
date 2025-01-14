@@ -9,7 +9,6 @@ ROLES = [
 
 
 class User(AbstractUser):
-    id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True, max_length=254)
     password = models.CharField(max_length=16, validators=[RegexValidator(
         regex=r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,16}$',

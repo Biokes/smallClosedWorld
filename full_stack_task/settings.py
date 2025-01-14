@@ -118,3 +118,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
