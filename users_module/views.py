@@ -1,13 +1,15 @@
-from rest_framework.viewsets import ModelViewSet
-from users_module.models import User
+from rest_framework.views import APIView
 from users_module.serializers import UserSerializer
-from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status, permissions
 
 
-class UserViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer(partial=True)
+class RegisterView(APIView):
+    permission_classes = [permissions.AllowAny]
 
-    @action(detail=False, methods=['post'], url_path='register')
-    def create_user(self, request):
-        return self.create(request)
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

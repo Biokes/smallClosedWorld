@@ -3,37 +3,23 @@ from users_module.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile_picture_url = serializers.SerializerMethodField()
+    gender = serializers.ChoiceField(choices=[('Male', 'Male'), ('Female', 'Female')], required=True, allow_blank=False)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'gender', 'username']
+        fields = ['email', 'password', 'gender', 'username', 'is_verified', 'date_joined']
         extra_kwargs = {
             'id': {'read_only': True},
             'password': {'write_only': True},
             'date_joined': {'read_only': True},
-            'isVerified': {'read_only': True},
+            'is_verified': {'read_only': True},
         }
-
-    def get_profile_picture_url(self, obj):
-        if obj.profile_picture_url is None:
-            return "No profile picture added yet."
-        return obj.profile_picture_url
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         if password is None:
-            raise serializers.ValidationError({"password": "Password is required."})
+            raise serializers.ValidationError({"password": "Invalid Data provided."})
         user = User(**validated_data)
         user.set_password(password)
         user.save()
         return user
-
-    def update(self, instance, validated_data):
-        for field, value in validated_data.items():
-            if field == 'password':
-                instance.set_password(value)
-            else:
-                setattr(instance, field, value)
-        instance.save()
-        return instance

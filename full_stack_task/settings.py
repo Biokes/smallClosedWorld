@@ -4,6 +4,7 @@ from decouple import config, Csv
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
 DEBUG = config('DEBUG', default=True, cast=bool)
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,31 +42,22 @@ TEMPLATES = [
     },
 ]
 WSGI_APPLICATION = 'full_stack_task.wsgi.application'
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'fullStackTask_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'TEST': {
-#             'NAME': None,
-#         },
-#     }
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST', default='localhost'),
-        'PORT': config('DATABASE_PORT', default='5432', cast=int),
-        'TEST': {
-            'NAME': config('TEST_DATABASE_NAME', default=None),
-        },
+      'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': config('DATABASE_NAME'),
+    #     'USER': config('DATABASE_USER'),
+    #     'PASSWORD': config('DATABASE_PASSWORD'),
+    #     'HOST': config('DATABASE_HOST', default='localhost'),
+    #     'PORT': config('DATABASE_PORT', default='5432', cast=int),
+    #     'TEST': {
+    #         'NAME': config('TEST_DATABASE_NAME', default=None),
+    #     },
+    # }
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
